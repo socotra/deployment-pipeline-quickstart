@@ -1,6 +1,7 @@
 "use strict";
 
 let lib = require("../common/lib.js");
+var parse = require('csv-parse');
 
 function firstIfLength(list) {
   if(list instanceof Array) {
@@ -45,8 +46,8 @@ function ratePeril(pep, peril, exp_c, policyFieldValues) {
   };
 }
 
-function getPerilRates(data) {
-  console.log(data);
+function getPerilRates(data, socotraApiOverride=false) {
+  global.socotraApi = socotraApiOverride ? socotraApiOverride : socotraApi;
   lib.polyfill();
 
   let policy = data.policy;
