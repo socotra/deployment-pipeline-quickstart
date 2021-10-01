@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "command-line-args": "^5.2.0",
+    "csv": "^5.5.3"
+  }
+}

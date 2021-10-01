@@ -1,11 +1,16 @@
 [
   {
     "test": "basic-single-exposure",
+    "config": "main_config",
     "pricedPerilCharacteristics": [
-      "1e667a9e-69c0-40e1-86fe-efdfc7660b12": {
-        "premium": "0.00",
-        "technicalPremium": "299.70",
-        "commissions": []
+      {
+        "f1d99d59-a925-4a67-a0a3-df47ccad6f9d": {
+          "premium": "0.00",
+          "technicalPremium": "299.70",
+          "commissions": [
+            { "recipient": "Broker", "amount": 44.955 }
+          ]
+        }
       }
     ]
   }

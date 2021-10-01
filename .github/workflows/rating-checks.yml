@@ -1,0 +1,28 @@
+name: Rating Test
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+defaults:
+  run:
+    working-directory: ./
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+
+    # runs all of the steps inside the specified container rather than on the VM host.
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:16.9.0
+
+    steps:
+    - uses: actions/checkout@v1
+    - run: ls
+    - run: npm install
+    - run: node testrater.js --runAll
