@@ -264,22 +264,29 @@ def main():
         d = Path(dir_name)  # turn into a Path object
         log_debug(f"Created temporary directory: {d}", args.debug)
 
-        print("Zipping")
-        log_debug(f"Zipping up: {args.folder}", args.debug)
-        zipped = make_archive(
-            base_name=d / "archive", format="zip", root_dir=args.folder
-        )
-        log_debug(f"Zipped to: {zipped}", args.debug)
+        print("Running tests")
+        import subprocess
+        testResult = subprocess.Popen(["node","testrater.js","--runAll"])
+        exitCode = testResult .wait()
+        if not exitCode:
+            print("Zipping")
+            log_debug(f"Zipping up: {args.folder}", args.debug)
+            zipped = make_archive(
+                base_name=d / "archive", format="zip", root_dir=args.folder
+            )
+            log_debug(f"Zipped to: {zipped}", args.debug)
 
-        print("Uploading")
-        post_zip_to_server(
-            zipped, args.tenant_suffix, args.username, args.password, debug=args.debug
-        )
+            print("Uploading")
+            post_zip_to_server(
+                zipped, args.tenant_suffix, args.username, args.password, debug=args.debug
+            )
 
-        log_debug(
-            f"Finishing with temporary directory, which will be removed: {d}",
-            args.debug,
-        )
+            log_debug(
+                f"Finishing with temporary directory, which will be removed: {d}",
+                args.debug,
+            )
+        else:
+            print("Test failure, aborting deployment...")
 
 
 if __name__ == "__main__":
