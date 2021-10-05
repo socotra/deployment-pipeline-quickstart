@@ -1,6 +1,7 @@
 const fs = require('fs');
 let csv = require('csv');
-chalk = require('chalk');
+const chalk = require('chalk');
+const util = require('util');
 
 const optionDefinitions = [
   { name: 'project', type: String, defaultOption: './' },
@@ -52,8 +53,9 @@ if(runAll) {
           let results = {};
           let data = fs.readFileSync(`./${project}/products/${product}/policy/tables/${tableName}.csv`, 'utf8');
           results = parseTableData(data);
-          console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${results[key]}`);
-          return results[key];
+          let returnValue = (key in results) ? results[key] : "";
+          console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${returnValue}`);
+          return returnValue;
         }
       }
 
@@ -107,8 +109,9 @@ if(runAll) {
       let results = {};
       let data = fs.readFileSync(`./${project}/products/${product}/policy/tables/${tableName}.csv`, 'utf8');
       results = parseTableData(data);
-      console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${results[key]}`);
-      return results[key];
+      let returnValue = (key in results) ? results[key] : "";
+      console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${returnValue}`);
+      return returnValue;
     }
   }
 
@@ -123,5 +126,5 @@ if(runAll) {
 
   // Run the payload against the rater
   let ratingResults = rater.getPerilRates(payload, socotraApi);
-  console.log(ratingResults);
+  console.log(util.inspect(ratingResults, {showHidden: false, depth: null, colors: true}))
 }
