@@ -7,10 +7,14 @@
         "f1d99d59-a925-4a67-a0a3-df47ccad6f9d": {
           "premium": "0.00",
           "technicalPremium": "299.70",
-          "commissions": [
-            { "recipient": "Broker", "amount": 44.955 }
-          ]
+          "commissions": [{ "recipient": "Broker", "amount": 44.955 }]
         }
+      }
+    ],
+    "policy_underwriting": [
+      {
+        "decision": "accept",
+        "notes": "Everyone wins!"
       }
     ]
   }

@@ -19,6 +19,24 @@ let product = options.product;
 let branch = options.branch ? options.branch : options.product;
 const runAll = options.runAll ? options.runAll : false;
 
+
+// Insert Util Processing There
+
+
+// Build out Socotra API
+function socotraApiBuilder(project, product) {
+  return {
+    tableLookup: function(configVersion, tableName, key) {
+      let results = {};
+      let data = fs.readFileSync(`./${project}/products/${product}/policy/tables/${tableName}.csv`, 'utf8');
+      results = parseTableData(data);
+      let returnValue = (key in results) ? results[key] : "";
+      console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${returnValue}`);
+      return returnValue;
+    }
+  }
+}
+
 function parseTableData(data){
   let tableData = {};
   let lbreak = data.split("\n");
@@ -48,17 +66,7 @@ if(runAll) {
       console.log("INTENDED PRODUCT:", intendedProduct);
       console.log("USING PRODUCT:", product);
 
-      const socotraApi = {
-        tableLookup: function(configVersion, tableName, key) {
-          let results = {};
-          let data = fs.readFileSync(`./${project}/products/${product}/policy/tables/${tableName}.csv`, 'utf8');
-          results = parseTableData(data);
-          let returnValue = (key in results) ? results[key] : "";
-          console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${returnValue}`);
-          return returnValue;
-        }
-      }
-
+      const socotraApi = socotraApiBuilder(project, product);
       const raterPath = `./${project}/scripts/${branch}/rater.js`;
       const rater = require(raterPath);
 
@@ -104,17 +112,7 @@ if(runAll) {
   }
   process.exit(!processSuccess);
 } else {
-  const socotraApi = {
-    tableLookup: function(configVersion, tableName, key) {
-      let results = {};
-      let data = fs.readFileSync(`./${project}/products/${product}/policy/tables/${tableName}.csv`, 'utf8');
-      results = parseTableData(data);
-      let returnValue = (key in results) ? results[key] : "";
-      console.log(`[${chalk.yellow('DEBUG')}] (${tableName})`, `key: ${key}, value: ${returnValue}`);
-      return returnValue;
-    }
-  }
-
+  const socotraApi = socotraApiBuilder(project, product);
   const payload = JSON.parse(fs.readFileSync(options.payload, 'utf8', 'r+'));
   const intendedProduct = 'productName' in payload.policy ? payload.policy.productName : '';
 

@@ -43,6 +43,7 @@ Black for deterministic code formatting: https://black.readthedocs.io/
 import argparse
 import json
 import os
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -265,9 +266,9 @@ def main():
         log_debug(f"Created temporary directory: {d}", args.debug)
 
         print("Running tests")
-        import subprocess
         testResult = subprocess.Popen(["node","testrater.js","--runAll"])
         exitCode = testResult .wait()
+
         if not exitCode:
             print("Zipping")
             log_debug(f"Zipping up: {args.folder}", args.debug)
