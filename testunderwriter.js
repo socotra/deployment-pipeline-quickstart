@@ -48,14 +48,13 @@ if (runAll) {
       console.log("INTENDED PRODUCT:", intendedProduct);
       console.log("USING PRODUCT:", product);
 
-      const socotraApi = socotraApiBuilder(project, product);
-      const raterPath = `./${project}/scripts/${branch}/underwriter.js`;
-      const rater = require(raterPath);
+      const underwriterPath = `./${project}/scripts/${branch}/underwriter.js`;
+      const underwriter = require(underwriterPath);
 
-      console.log("USING RATER:", raterPath);
+      console.log("USING UNDERWRITER:", underwriterPath);
 
       // Run the payload against the rater
-      let underwritingResults = rater.getUnderwritingResult(payload);
+      let underwritingResults = underwriter.getUnderwritingResult(payload);
 
       // Flatten policyScenario
       policyScenario = policyScenario["policy_underwriting"][0];
@@ -89,7 +88,6 @@ if (runAll) {
   }
   process.exit(!processSuccess);
 } else {
-  const socotraApi = socotraApiBuilder(project, product);
   const payload = JSON.parse(fs.readFileSync(options.payload, "utf8", "r+"));
   const intendedProduct =
     "productName" in payload.policy ? payload.policy.productName : "";
@@ -97,13 +95,13 @@ if (runAll) {
   product = product ? product : intendedProduct;
   branch = branch ? branch : product;
 
-  const raterPath = `./${project}/scripts/${branch}/rater.js`;
+  const raterPath = `./${project}/scripts/${branch}/underwriter.js`;
   const rater = require(raterPath);
 
   // Run the payload against the rater
-  let ratingResults = rater.getPerilRates(payload, socotraApi);
+  let underwritingResults = rater.getUnderwritingResult(payload);
   console.log(
-    util.inspect(ratingResults, {
+    util.inspect(underwritingResults, {
       showHidden: false,
       depth: null,
       colors: true,

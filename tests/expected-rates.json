@@ -17,5 +17,18 @@
         "notes": "Everyone wins!"
       }
     ]
+  },
+  {
+    "test": "basic-motorcycle-exposure",
+    "config": "main_config",
+    "pricedPerilCharacteristics": [
+      {
+        "8b1206af-bdd4-49c1-95b1-6d7670cf9c65": {
+          "premium": "0.00",
+          "technicalPremium": "599.4",
+          "commissions": [{ "recipient": "Broker", "amount": 89.91 }]
+        }
+      }
+    ]
   }
 ]
